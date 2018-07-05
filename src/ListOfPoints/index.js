@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import './ListOfPoints.css';
-import ListOfPoints_Point from './ListOfPoints_Point';
+import ListOfPoints__Point from './ListOfPoints__Point';
+import checkMod from '../checkMod'
 
 class ListOfPoints extends Component {
 	constructor(props) {
     super(props);
-    this.handleDeletePoint = this.handleDeletePoint.bind(this)
-    setMods.bind(this)();
+    this.handleDeletePoint = this.handleDeletePoint.bind(this);
   }
 
   handleDeletePoint(e, key){
-  	if(typeof this.props.onDeletePoint == "function"){
-  		this.props.onDeletePoint(key)
+  	if(checkMod(this.props.mods, "withDeletePoints") && typeof this.props.mods.withDeletePoints.onDeletePoint === "function"){
+  		this.props.mods.withDeletePoints.onDeletePoint(key)
   	}
-    deletePoint_innerState.bind(this)(key)
   }
 
   render() {
@@ -21,11 +20,17 @@ class ListOfPoints extends Component {
   		if (!this.props.points[point].key){ return <p>Error: property 'key' is not defined</p>}
   	}
 
-  	var points = this.state && this.state.points || this.props.points;
+  	var points = this.props.points;
+
+    var optionsCreate = {
+      points: points,
+      handleDeletePoint: this.handleDeletePoint,
+      withDeleteButton: checkMod(this.props.mods, "withDeletePoints")
+    };
 
     return (
       <ul className={"ListOfPoints" + (this.props.className ? this.props.className : "")}>
-        {createListPoints({points: points, handleDeletePoint: this.handleDeletePoint})}
+        {createListPoints(optionsCreate)}
       </ul>
     );
   }
@@ -38,38 +43,18 @@ function createListPoints(props) {
 	var list = [];
 
 	for(let point in points){
-		list.push(<ListOfPoints_Point
+		list.push(<ListOfPoints__Point
 			onDelete = {handleDeletePoint}
 			key = {points[point].key}
 			_id = {points[point].key}
-			text = {(points[point].text ? points[point].text : "")}/>)
+			text = {(points[point].text ? points[point].text : "")}
+      withDeleteButton = {props.withDeleteButton}
+    />)
 	}
 
 	return list;
 }
 
-function setMods(){
-  if(typeof this.props.mods == "object"){
-    
-    if(this.props.mods.innerState === true){
-      this.state = {points: this.props.points}
-    }
-  }
-}
-
-function deletePoint_innerState(key){
-  if (typeof this.props.mods == "object" || this.props.mods.innerState === true){
-    let points = this.state.points.concat();
-
-    for (var point in points){
-      if(points[point].key === key){
-        points.splice(+point, 1)
-      }
-    }
-
-    this.setState({points: points})
-  }
-}
 
 
 export default ListOfPoints;

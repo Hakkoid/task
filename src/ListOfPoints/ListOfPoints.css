@@ -1,5 +1,12 @@
 .ListOfPoints{
+	padding: 0;
+	float: left;
 	list-style-type: none;
 	height: 400px;
-	width: 400px;
+	width: 30%;
+}
+
+.ListOfPoints__Text{
+	float: left;
+	margin: 0;
 }

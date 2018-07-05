@@ -1,0 +1,23 @@
+.MyInput{
+	overflow: hidden;
+	width: 30%;
+	height: 20px;
+}
+
+.MyInput__Button{
+	margin: 1px;
+	display: inline;
+	float: right;
+	height: 18px;
+	width: 18px;
+	background-color: black; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.MyInput__Input{
+	float: left;
+}
