@@ -1,23 +1,36 @@
 .MyInput{
+	width: 100px;
+	height: 21px;
+	border: 1px solid black;
+	position: relative;
 	overflow: hidden;
-	width: 30%;
-	height: 20px;
+	box-sizing: border-box;
 }
 
 .MyInput__Button{
-	margin: 1px;
+	position: absolute;
+	right: 0;
 	display: inline;
-	float: right;
-	height: 18px;
-	width: 18px;
-	background-color: black; /* Green */
+	padding: 0;
+	height: 21px;
+	background-color: black; 
     border: none;
     color: white;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    width: 30%;
+    box-sizing: border-box;
 }
 
 .MyInput__Input{
-	float: left;
+	position: absolute;
+	left: 0;
+	border: none;
+	width: 70%;
+	box-sizing: border-box;
+}
+
+.MyInput__width_full{
+	width: 100% !important;
 }

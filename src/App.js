@@ -10,8 +10,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <MyMap/>
+      <div className = "App">
+        <MyMap className = "MapPosition"/>
       </div>
     );
   }

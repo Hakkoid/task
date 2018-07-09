@@ -29,7 +29,7 @@ class ListOfPoints extends Component {
     };
 
     return (
-      <ul className={"ListOfPoints" + (this.props.className ? this.props.className : "")}>
+      <ul className={"ListOfPoints " + (this.props.className ? this.props.className : "")}>
         {createListPoints(optionsCreate)}
       </ul>
     );

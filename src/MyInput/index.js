@@ -42,7 +42,7 @@ class MyMap__Input extends Component {
 
   render() {
     return ( 
-      <div className = {"MyInput" + (this.props.className ? this.props.className : "")}>
+      <div className = {"MyInput " + (this.props.className ? this.props.className : "")}>
         <input 
           className = "MyInput__Input" 
           onChange = {this.handleChange} 

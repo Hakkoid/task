@@ -1,20 +1,27 @@
 .ListOfPoints__Point{
+	background-color: white;
 	overflow: hidden;
 	width: 100%;
 	height: 20px;
-	border: 4px double black;
+	border: 1px solid black;
+	margin: 0px;
+	position: relative;
+	box-sizing: border-box;
 }
 
 .ListOfPoints__ButtonDelete{
+	position: absolute;
+	right: 0;
 	margin: 1px;
+	padding: 0;
 	display: inline;
-	float: right;
-	height: 18px;
-	width: 18px;
+	height: 16px;
+	width: 16px;
 	background-color: black; /* Green */
     border: none;
     color: white;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    box-sizing: border-box;
 }
