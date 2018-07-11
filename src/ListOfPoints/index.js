@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import './ListOfPoints.css';
 import ListOfPoints__Point from './ListOfPoints__Point';
-import checkMod from '../checkMod'
+import ListOfPoints__PointContainer from './ListOfPoints__PointContainer';
+import checkMod from '../checkMod';
+
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend'
 
 class ListOfPoints extends Component {
 	constructor(props) {
@@ -15,16 +19,14 @@ class ListOfPoints extends Component {
   	}
   }
 
-  render() {
-  	for(let point in this.props.points){
-  		if (!this.props.points[point].key){ return <p>Error: property 'key' is not defined</p>}
-  	}
 
+  render() {
   	var points = this.props.points;
 
     var optionsCreate = {
       points: points,
       handleDeletePoint: this.handleDeletePoint,
+      handleSwapPoint: this.props.mods.withDragAndDrop.onSwapPoint,
       withDeleteButton: checkMod(this.props.mods, "withDeletePoints")
     };
 
@@ -38,23 +40,27 @@ class ListOfPoints extends Component {
 
 function createListPoints(props) {
 
-	var points = props.points;
-	var handleDeletePoint = props.handleDeletePoint;
-	var list = [];
+  var points = props.points;
+  var handleDeletePoint = props.handleDeletePoint;
+  var list = [];
+  var handleSwapPoint = props.handleSwapPoint;
 
-	for(let point in points){
-		list.push(<ListOfPoints__Point
-			onDelete = {handleDeletePoint}
-			key = {points[point].key}
-			_id = {points[point].key}
-			text = {(points[point].text ? points[point].text : "")}
-      withDeleteButton = {props.withDeleteButton}
-    />)
-	}
+  for(let point in points){
+    list.push(
+      <ListOfPoints__PointContainer key = {points[point].position} position = {points[point].position}>
+        <ListOfPoints__Point
+          onSwap = {handleSwapPoint}
+          onDelete = {handleDeletePoint}
+          position = {points[point].position}
+          text = {(points[point].text ? points[point].text : "")}
+          withDeleteButton = {props.withDeleteButton}
+        />
+      </ListOfPoints__PointContainer>
+    )
+  }
 
-	return list;
+  return list;
 }
 
+export default DragDropContext(HTML5Backend)(ListOfPoints);
 
-
-export default ListOfPoints;

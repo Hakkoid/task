@@ -11,22 +11,52 @@ class MyMap extends Component {
     super(props);
     this.state = {
       points: [],
-      center: [55.76, 37.64]
+      center: [55.76, 37.64],
+      line: []
     }
     this.handleDeletePoint = this.handleDeletePoint.bind(this);
     this.handleAddPoint = this.handleAddPoint.bind(this);
+    this.handleSwapPoint = this.handleSwapPoint.bind(this);
+    this.handleDragEndYmaps = this.handleDragEndYmaps.bind(this);
+    this.handleGeometryChange = this.handleGeometryChange.bind(this);
   }
 
-  handleDeletePoint(key){
+  handleDeletePoint(position){
 
-    var points = this.state.points.concat();
+    var points = this.state.points;
+    var line = this.state.line;
 
     for(let point in points){
-      if (points[point].key === key) {
-        points.splice(+point, 1)
+      if (points[point].position === position) {
+        points.splice(+point, 1);
+        line.splice(+point, 1);
       }      
     }
-    this.setState({points: points})
+
+    updatePositions(points);
+
+    this.setState({points: points, line: line})
+  }
+
+  handleSwapPoint(positionFrom, positionTo){
+
+    var points = this.state.points;
+    var line = this.state.line;
+    var pointSwapFrom = points[positionFrom]
+    var pointSwapTo = points[positionTo]
+
+    pointSwapFrom.position = positionTo;
+    pointSwapTo.position = positionFrom;
+
+    points[positionTo] = pointSwapFrom;
+    points[positionFrom] = pointSwapTo;
+
+    line[positionTo] = pointSwapFrom.coordinates;
+    line[positionFrom] = pointSwapTo.coordinates;
+
+    updatePositions(points);
+  
+    this.setState({points: points, line: line})
   }
 
   handleAddPoint(value){
@@ -34,14 +64,41 @@ class MyMap extends Component {
     this.setState({center: this.map.getCenter()})
 
     for(var point in this.state.points){
-      if( this.state.points[point].key === value){
+      if( this.state.points[point].text === value){
         alert("Точка с таким именем уже есть")
         return
       }
     }
-    var points = this.state.points.concat([{key: value, text: value, coordinates: this.map.getCenter()}]);
+    var points = this.state.points.concat([{ position: this.state.points.length, text: value, coordinates: this.map.getCenter()}]);
+    var line = this.state.line;
+
+    line.push(this.map.getCenter())
+  
+
+    this.setState({points: points, line: line})
+  }
+
+  handleDragEndYmaps(pastPointState, event){
+
+    var points = this.state.points;
+
+    for(let point in points){
+      if(points[point].position === pastPointState.position){
+        points[point].coordinates = event.originalEvent.target.geometry._coordinates;
+      }
+    }
+    console.log(this.state)
 
     this.setState({points: points})
+  }
+
+  handleGeometryChange(pastPointState, event){
+
+    var line = this.state.line;
+
+    line[pastPointState.position] = event.originalEvent.target.geometry._coordinates;
+
+    this.setState({line: line})
   }
 
 
@@ -56,10 +113,8 @@ class MyMap extends Component {
           <GeoObject 
             geometry={{
               type: 'LineString',
-              coordinates: 
-                getCoordinates()
-                
-             }}
+              coordinates: this.state.line.concat()
+            }}
             options={{
               // Enabling drag-n-drop for the polyline.
               draggable: true,
@@ -74,15 +129,6 @@ class MyMap extends Component {
       </YMaps>
     );
 
-    const getCoordinates = () => {
-            let result = [];
-            for(let point in this.state.points){
-              result.push(this.state.points[point].coordinates)
-            }
-
-            return result;
-    }
-
     const createPlacemarks = () => {
       let result = [];
 
@@ -90,7 +136,7 @@ class MyMap extends Component {
       for(var point in this.state.points){
         result.push(
           <Placemark
-            key={this.state.points[point].key}            
+            key={this.state.points[point].position}            
 
             geometry={{
               coordinates: this.state.points[point].coordinates
@@ -98,6 +144,9 @@ class MyMap extends Component {
             properties={{
               balloonContent: this.state.points[point].text
             }}
+            options = {{draggable: true}}
+            onDragEnd = { this.handleDragEndYmaps.bind(this, Object.assign({}, this.state.points[point]))}
+            onGeometryChange = { this.handleGeometryChange.bind(this, Object.assign({}, this.state.points[point]))}
           />
         )
       }
@@ -117,7 +166,7 @@ class MyMap extends Component {
           />
         	<ListOfPoints 
             points = {this.state.points} 
-            mods = { { withDeletePoints: {onDeletePoint: this.handleDeletePoint} } }
+            mods = { { withDeletePoints: {onDeletePoint: this.handleDeletePoint}, withDragAndDrop: {onSwapPoint: this.handleSwapPoint}} }
             className = "ListOfPoints__width_full"
           />
         </div>
@@ -129,6 +178,10 @@ class MyMap extends Component {
   }
 }
 
-
-
 export default MyMap;
+
+function updatePositions(points){
+  points.map(function(currentPoint, index, array){
+     currentPoint.position = index;
+  })
+}

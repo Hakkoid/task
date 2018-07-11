@@ -1,5 +1,38 @@
 import React, { Component } from 'react';
 import './ListOfPoints__Point.css';
+import { DragSource  } from 'react-dnd';
+import PropTypes from 'prop-types';
+
+
+const PointSource = {
+  beginDrag(props, monitor, component) {
+    return props;
+  },
+  endDrag(props, monitor, component) {
+    
+    if (!monitor.didDrop()){
+      return
+    }
+
+    const item = monitor.getItem();
+    const dropResult = monitor.getDropResult();
+    
+    props.onSwap(item.position , dropResult.position);
+  }
+};
+
+/**
+ * Specifies the props to inject into your component.
+ */
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging(),
+    connectDragPreview: connect.dragPreview(),
+    canDrop: monitor.canDrop
+  };
+}
+
 
 class ListOfPoints_Point extends Component {
 	constructor(props) {
@@ -8,20 +41,21 @@ class ListOfPoints_Point extends Component {
   }
 
   handleClickDelete(e){
-  	this.props.onDelete(e, this.props._id);
+  	this.props.onDelete(e, this.props.position);
   }
 
   render() {
-    return (
-      <li className={"ListOfPoints__Point" + (this.props.className ? this.props.className : "")}>
-        <div style = {{lineHeight: 1}}>
-      		<p className = "ListOfPoints__Text">{this.props.text}</p>
-          {createDeleteButton.bind(this)()}
-        </div>
-      </li>
+    const { isDragging, connectDragSource, text } = this.props;
+    return connectDragSource(
+      <div className = "ListOfPoints__Point" style = {{lineHeight: 1, opacity: isDragging ? 0.5 : 1}}>
+        <p className = "ListOfPoints__Text">{this.props.text}</p>
+        {createDeleteButton.bind(this)()}
+      </div>
     )
   }
 }
+
+
 
 function createDeleteButton(){
   if (this.props.withDeleteButton)  {
@@ -29,4 +63,7 @@ function createDeleteButton(){
   }
 }
 
-export default ListOfPoints_Point;
+export default DragSource('ListOfPoints__Point', PointSource, collect)(ListOfPoints_Point);
+
+
+
