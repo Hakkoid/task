@@ -116,11 +116,7 @@ class MyMap extends Component {
               coordinates: this.state.line.concat()
             }}
             options={{
-              // Enabling drag-n-drop for the polyline.
-              draggable: true,
-              // The line color.
               strokeColor: '#FFFF00',
-              // Line width.
               strokeWidth: 5,
             }}
           />
