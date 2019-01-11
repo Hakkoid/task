@@ -1,0 +1,19 @@
+.App {
+	width: 1000px;
+	margin: 100px auto;
+	height: 600px;
+}
+
+.left{
+	width: 30%;
+	float: left;
+	display: inline-block;
+	height: 100%;
+}
+
+.right{
+	width: 70%;
+	display: inline-block;
+	float: right;
+	height: 100%;
+}

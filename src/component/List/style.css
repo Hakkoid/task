@@ -1,0 +1,7 @@
+.List{
+	width: 300px;
+	height: calc(100% - 40px);
+	background: #bfedff;
+	padding: 5px;
+	overflow: auto;
+}
