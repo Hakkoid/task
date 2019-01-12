@@ -29,6 +29,10 @@ class RouteList extends Component {
   }
 
   handleAddPoint(text){
+    if( text === ""){
+      return
+    }
+
     this.props.addPoint({ text, coordinates: this.props.center});
   }
 
@@ -37,7 +41,7 @@ class RouteList extends Component {
     const points = this.props.points.map((point, index)=>{
       return (
         <SortablePoint id={point.id} index={index} key={point.id} onClose={this.handleRemove}>
-          {point.text + " " + point.coordinates[0].toFixed(2) + ", " + point.coordinates[1].toFixed(2)}
+          {point.text}
         </SortablePoint>
       )
     })

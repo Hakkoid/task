@@ -8,6 +8,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body, html, #root{
+  height: 100%;
+  overflow: hidden;
+}
+
 *{
   box-sizing: border-box;
 }

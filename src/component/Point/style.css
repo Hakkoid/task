@@ -22,6 +22,14 @@
 	}
 }
 
+.Point__Text{
+	padding: 0;
+	margin: 0;
+	width: calc(100% - 25px);
+	overflow: hidden;
+	display: inline-block;
+}
+
 .Point__Close{
 	background: #ffffff;
 	border: none;

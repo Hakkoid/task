@@ -25,9 +25,11 @@ class RouteMap extends Component {
     const points = this.props.points.map((point) => {
        return <Placemark 
         key = {point.id} 
-        options = {{draggable: true}} 
-        geometry = {point.coordinates} 
+        options = {  {draggable: true} }
+        modules={['geoObject.addon.balloon']} 
+        geometry = { point.coordinates } 
         onGeometryChange = { (event) => { this.handleMovePoints(event, point.id) } }
+        properties = { { balloonContent: point.text } }
         />
     })
 
