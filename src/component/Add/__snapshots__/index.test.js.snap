@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add Snapshot 1`] = `
+<form
+  className="Add"
+  onSubmit={[Function]}
+>
+  <input
+    className="Add__Input"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    className="Add__Button"
+    type="submit"
+    value="Add"
+  />
+</form>
+`;

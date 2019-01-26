@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Point Snapshot 1`] = `
+<li
+  className="Point"
+>
+  <p
+    className="Point__Text"
+  />
+  <button
+    className="Point__Close"
+    onClick={[Function]}
+  >
+    <span />
+  </button>
+</li>
+`;

@@ -1,4 +1,4 @@
-import { ADD_POINT, REMOVE_POINT, REPLACE_POINT, CHANGE_POINT } from "../actionTypes";
+import { ADD_POINT, REMOVE_POINT, SWAP_POINT, CHANGE_POINT } from "../actionTypes";
 
 
 const points = (state = [], action) => {
@@ -21,8 +21,8 @@ const points = (state = [], action) => {
         ...state.slice(removeIndex + 1)
       ];
 
-    case REPLACE_POINT:
-      return replacePoint( state, action )
+    case SWAP_POINT:
+      return swapPoint( state, action )
 
     case CHANGE_POINT:
       return changePoint( state, action )
@@ -46,7 +46,7 @@ const getIndexById = (id, points) => {
   return index
 }
 
-const replacePoint = ( state, action) => {
+const swapPoint = ( state, action) => {
 
   let point = state[action.oldIndex];
 

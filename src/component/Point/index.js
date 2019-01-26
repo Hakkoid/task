@@ -28,5 +28,3 @@ Point.propTypes = {
 }
 
 export default Point;
-
-//c2f7ee60-233c-488b-ad4d-d1576e874f91

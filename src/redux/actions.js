@@ -1,4 +1,4 @@
-import { ADD_POINT, REMOVE_POINT, REPLACE_POINT, CHANGE_POINT, CHANGE_CENTER } from "./actionTypes";
+import { ADD_POINT, REMOVE_POINT, SWAP_POINT, CHANGE_POINT, CHANGE_CENTER } from "./actionTypes";
 
 let nextRouteId = 0;
 
@@ -22,8 +22,8 @@ export const changePoint = ({id, text, coordinates}) => ({
 })
 
 
-export const replacePoint = ({ oldIndex, newIndex}) => ({
-  type: REPLACE_POINT,
+export const swapPoint = ({oldIndex, newIndex}) => ({
+  type: SWAP_POINT,
   oldIndex: oldIndex,
   newIndex: newIndex
 })
