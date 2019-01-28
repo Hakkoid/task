@@ -33,7 +33,7 @@ const points = (state = [], action) => {
 }
 
 
-const getIndexById = (id, points) => {
+export const getIndexById = (id, points) => {
 
   let index;
 
@@ -46,24 +46,21 @@ const getIndexById = (id, points) => {
   return index
 }
 
-const swapPoint = ( state, action) => {
-
-  let point = state[action.oldIndex];
+export const swapPoint = (state, action) => {
 
   let points = [
     ...state.slice(0, action.oldIndex),
+    state[action.newIndex],
     ...state.slice(action.oldIndex + 1)
   ];
 
-  return [
-    ...points.slice(0, action.newIndex),
-    point,
-    ...points.slice(action.newIndex)
-  ];
+  points[action.newIndex] = state[action.oldIndex];
+
+  return points;
 
 }
 
-const changePoint = ( state, action ) => {
+export const changePoint = (state, action) => {
 
   const index = getIndexById(action.id, state);
 

@@ -12,6 +12,3 @@ class List extends Component {
 }
 
 export default List;
-
-//c2f7ee60-233c-488b-ad4d-d1576e874f91
-

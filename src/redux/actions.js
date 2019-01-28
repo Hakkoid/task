@@ -4,7 +4,7 @@ let nextRouteId = 0;
 
 export const addPoint = ({text, coordinates}) => ({
   type: ADD_POINT,
-  id: ++nextRouteId + "",
+  id: nextRouteId++ + "",
   text: text,
   coordinates: coordinates
 })

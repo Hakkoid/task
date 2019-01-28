@@ -44,16 +44,44 @@ describe('actions', () => {
     expect(actions.removePoint(id)).toEqual(expectedAction)
   })
 
-  it('should create an action to add new point', () => {
-    const text = 'second';
-    const coordinates = [20, 40];
-    const expectedAction = {
+  it('should create an action to add new point. \
+    Action has id property with unique auto incrementing \
+    value that start with 0 and has data type string', () => {
+
+    let idCounter = 0;
+
+    const firstText = 'first';
+    const firstCoordinates = [20, 40];
+
+    const firstExpectedAction = {
       type: types.ADD_POINT,
-      text,
-      coordinates,
-      id: '1'
+      text: firstText,
+      coordinates: firstCoordinates,
+      id: idCounter++ + ''
     }
-    expect(actions.addPoint({text, coordinates})).toEqual(expectedAction)
+    expect(actions.addPoint({text: firstText, coordinates: firstCoordinates})).toEqual(firstExpectedAction)
+
+    const secondText = 'second';
+    const secondCoordinates = [11, 70];
+
+    const secondExpectedAction = {
+      type: types.ADD_POINT,
+      text: secondText,
+      coordinates: secondCoordinates,
+      id: idCounter++ + ''
+    }
+    expect(actions.addPoint({text: secondText, coordinates: secondCoordinates})).toEqual(secondExpectedAction)
+
+    const thirdText = 'third';
+    const thirdCoordinates = [11, 70];
+
+    const thirdExpectedAction = {
+      type: types.ADD_POINT,
+      text: thirdText,
+      coordinates: thirdCoordinates,
+      id: idCounter++ + ''
+    }
+    expect(actions.addPoint({text: thirdText, coordinates: thirdCoordinates})).toEqual(thirdExpectedAction)
   })
 
 
