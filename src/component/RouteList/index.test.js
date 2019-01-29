@@ -18,7 +18,9 @@ describe( 'RouteList', () => {
 
     it( 'Snapshot', () => {
         const component = renderer.create(
-            <RouteList />,
+            <Provider store = { store }>
+                <RouteList />
+            </Provider>,
         );
 
         let tree = component.toJSON();

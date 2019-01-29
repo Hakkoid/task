@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RouteList Snapshot 1`] = `
+Array [
+  <form
+    className="Add"
+    onSubmit={[Function]}
+  >
+    <input
+      className="Add__Input"
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <input
+      className="Add__Button"
+      type="submit"
+      value="Add"
+    />
+  </form>,
+  <ul
+    className="List"
+  />,
+]
+`;
