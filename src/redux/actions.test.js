@@ -11,28 +11,28 @@ describe('actions', () => {
     expect(actions.changeCenter(coordinates)).toEqual(expectedAction)
   })
 
-  it('should create an action to swap two points', () => {
+  it('should create an action to replace point from old position to new', () => {
     const oldIndex = 0;
     const newIndex = 3;
     const expectedAction = {
-      type: types.SWAP_POINT,
+      type: types.REPLACE_POINT,
       oldIndex,
       newIndex
     }
-    expect(actions.swapPoint({oldIndex, newIndex})).toEqual(expectedAction)
+    expect(actions.replacePoint({oldIndex, newIndex})).toEqual(expectedAction)
   })
 
   it('should create an action to change a point', () => {
     const id = "3";
-    const text = 'Worst';
+    const name = 'Worst';
     const coordinates = [22, 33]
     const expectedAction = {
       type: types.CHANGE_POINT,
       id,
-      text,
+      name,
       coordinates
     }
-    expect(actions.changePoint({id, text, coordinates})).toEqual(expectedAction)
+    expect(actions.changePoint({id, name, coordinates})).toEqual(expectedAction)
   })
 
   it('should create an action to remove a point', () => {
@@ -44,45 +44,77 @@ describe('actions', () => {
     expect(actions.removePoint(id)).toEqual(expectedAction)
   })
 
+  //counter for addPoint action
+  let idCounter = 0;
+
   it('should create an action to add new point. \
     Action has id property with unique auto incrementing \
-    value that start with 0 and has data type string', () => {
+    value that start with 0 and has data type string.', () => {
 
-    let idCounter = 0;
-
-    const firstText = 'first';
+    const firstName = 'first';
+    const firstAddress = 'Moscow';
     const firstCoordinates = [20, 40];
 
     const firstExpectedAction = {
       type: types.ADD_POINT,
-      text: firstText,
+      name: firstName,
       coordinates: firstCoordinates,
+      address: firstAddress,
       id: idCounter++ + ''
     }
-    expect(actions.addPoint({text: firstText, coordinates: firstCoordinates})).toEqual(firstExpectedAction)
+    expect(actions.addPoint({
+      name: firstName,
+      coordinates: firstCoordinates,
+      address: firstAddress
+    })).toEqual(firstExpectedAction)
 
-    const secondText = 'second';
+    const secondName = 'second';
+    const secondAddress = 'London';
     const secondCoordinates = [11, 70];
 
     const secondExpectedAction = {
       type: types.ADD_POINT,
-      text: secondText,
+      name: secondName,
+      address: secondAddress,
       coordinates: secondCoordinates,
       id: idCounter++ + ''
     }
-    expect(actions.addPoint({text: secondText, coordinates: secondCoordinates})).toEqual(secondExpectedAction)
+    expect(actions.addPoint({
+      name: secondName,
+      coordinates: secondCoordinates,
+      address: secondAddress
+    })).toEqual(secondExpectedAction)
 
-    const thirdText = 'third';
+    const thirdName = 'third';
+    const thirdAddress = 'Kiev';
     const thirdCoordinates = [11, 70];
 
     const thirdExpectedAction = {
       type: types.ADD_POINT,
-      text: thirdText,
+      name: thirdName,
+      address: thirdAddress,
       coordinates: thirdCoordinates,
       id: idCounter++ + ''
     }
-    expect(actions.addPoint({text: thirdText, coordinates: thirdCoordinates})).toEqual(thirdExpectedAction)
+    expect(actions.addPoint({
+      name: thirdName,
+      address: thirdAddress,
+      coordinates: thirdCoordinates
+    })).toEqual(thirdExpectedAction)
   })
 
+  it('"address" property is optional and it should default set empty string', () => {
 
+    const expectedAction = {
+      type: types.ADD_POINT,
+      id: idCounter++ + '',
+      name: 'some',
+      address: '',
+      coordinates: [20, 20]
+    }
+
+    let action = actions.addPoint({name: 'some', coordinates: [20, 20]});
+
+    expect(action).toEqual(expectedAction)
+  })
 })

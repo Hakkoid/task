@@ -13,5 +13,8 @@ exports[`Point Snapshot 1`] = `
   >
     <span />
   </button>
+  <p
+    className="Point__Description"
+  />
 </li>
 `;

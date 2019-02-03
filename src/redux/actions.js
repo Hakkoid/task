@@ -1,11 +1,12 @@
-import { ADD_POINT, REMOVE_POINT, SWAP_POINT, CHANGE_POINT, CHANGE_CENTER } from "./actionTypes";
+import { ADD_POINT, REMOVE_POINT, REPLACE_POINT, CHANGE_POINT, CHANGE_CENTER } from "./actionTypes";
 
 let nextRouteId = 0;
 
-export const addPoint = ({text, coordinates}) => ({
+export const addPoint = ({name, coordinates, address}) => ({
   type: ADD_POINT,
   id: nextRouteId++ + "",
-  text: text,
+  name: name,
+  address: address || '',
   coordinates: coordinates
 })
 
@@ -14,16 +15,17 @@ export const removePoint = (id) => ({
   id: id
 })
 
-export const changePoint = ({id, text, coordinates}) => ({
+export const changePoint = ({id, name, coordinates, address}) => ({
   type: CHANGE_POINT,
   id: id,
-  text: text,
+  name: name,
+  address: address,
   coordinates: coordinates
 })
 
 
-export const swapPoint = ({oldIndex, newIndex}) => ({
-  type: SWAP_POINT,
+export const replacePoint = ({oldIndex, newIndex}) => ({
+  type: REPLACE_POINT,
   oldIndex: oldIndex,
   newIndex: newIndex
 })

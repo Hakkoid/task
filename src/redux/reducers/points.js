@@ -1,4 +1,4 @@
-import { ADD_POINT, REMOVE_POINT, SWAP_POINT, CHANGE_POINT } from "../actionTypes";
+import { ADD_POINT, REMOVE_POINT, REPLACE_POINT, CHANGE_POINT } from "../actionTypes";
 
 
 const points = (state = [], action) => {
@@ -9,7 +9,8 @@ const points = (state = [], action) => {
         ...state,
         {
           id: action.id,
-          text: action.text,
+          name: action.name,
+          address: action.address,
           coordinates: action.coordinates
         }                
       ]
@@ -21,8 +22,8 @@ const points = (state = [], action) => {
         ...state.slice(removeIndex + 1)
       ];
 
-    case SWAP_POINT:
-      return swapPoint( state, action )
+    case REPLACE_POINT:
+      return replacePoint( state, action )
 
     case CHANGE_POINT:
       return changePoint( state, action )
@@ -46,15 +47,18 @@ export const getIndexById = (id, points) => {
   return index
 }
 
-export const swapPoint = (state, action) => {
+export const replacePoint = (state, action) => {
 
   let points = [
     ...state.slice(0, action.oldIndex),
-    state[action.newIndex],
     ...state.slice(action.oldIndex + 1)
   ];
 
-  points[action.newIndex] = state[action.oldIndex];
+  points = [
+    ...points.slice(0, action.newIndex),
+    state[action.oldIndex],
+    ...points.slice(action.newIndex)
+  ]
 
   return points;
 
@@ -67,7 +71,8 @@ export const changePoint = (state, action) => {
   let point = { ...state[index] };
 
   point.coordinates = action.coordinates || point.coordinates;
-  point.text = action.text || point.text;
+  point.name = action.name || point.name;
+  point.address = action.address || ( action.address === '' ? '' : point.address );
 
   return [
     ...state.slice(0, index),

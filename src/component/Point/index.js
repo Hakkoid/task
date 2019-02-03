@@ -15,8 +15,9 @@ class Point extends Component {
   render() {
     return (
       <li className="Point">
-        <p className="Point__Text">{this.props.children}</p>
+        <p className="Point__Text">{this.props.text}</p>
         <button onClick={this.handleClose} className="Point__Close"><span /></button>
+        <p className="Point__Description">{this.props.description}</p>
       </li>
     );
   }

@@ -4,7 +4,7 @@ import Point from '../Point';
 import Add from '../Add';
 import List from '../List';
 import { connect } from "react-redux";
-import { addPoint, removePoint, swapPoint } from '../../redux/actions';
+import { addPoint, removePoint, replacePoint } from '../../redux/actions';
 
 
 
@@ -21,28 +21,33 @@ class RouteList extends Component {
   }
 
   handleSortEnd({oldIndex, newIndex}){
-    this.props.swapPoint({oldIndex, newIndex})
+    this.props.replacePoint({oldIndex, newIndex})
   }
 
   handleRemove(id){
     this.props.removePoint(id);
   }
 
-  handleAddPoint(text){
-    if( text === ""){
+  handleAddPoint(name){
+    if( name === ""){
       return
     }
 
-    this.props.addPoint({ text, coordinates: this.props.center});
+    this.props.addPoint({ name, coordinates: this.props.center});
   }
 
   render() {
 
     const points = this.props.points.map((point, index)=>{
       return (
-        <SortablePoint id={point.id} index={index} key={point.id} onClose={this.handleRemove}>
-          {point.text}
-        </SortablePoint>
+        <SortablePoint 
+          id={point.id}
+          index={index}
+          key={point.id}
+          onClose={this.handleRemove}
+          text={point.name}
+          description={point.address}
+        />
       )
     })
 
@@ -65,5 +70,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { addPoint, removePoint, swapPoint }
+  { addPoint, removePoint, replacePoint }
 )(RouteList)

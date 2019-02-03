@@ -9,8 +9,8 @@ class RouteMap extends Component {
     super(props);
     this.handleChangeCenter = this.handleChangeCenter.bind(this);
     this.handleMovePoints = this.handleMovePoints.bind(this);
-    this.getAddress = this.getAddress.bind(this);
-    this.state = { ymaps: null, address: '' };
+    this.loadAddress = this.loadAddress.bind(this);
+    this.state = { ymaps: null};
   }
 
   handleChangeCenter(event){
@@ -19,13 +19,12 @@ class RouteMap extends Component {
 
   handleMovePoints(event, id){
     this.props.changePoint({ coordinates: event.originalEvent.target.geometry._coordinates, id})
-
   }
 
-  getAddress(coordinates){
+  loadAddress(coordinates, id){
     let geocoder = this.state.ymaps.geocode(coordinates);
     geocoder.then((res) => {
-      this.setState({address: res.geoObjects.get(0).properties.getAll().name})
+      this.props.changePoint({id, address: res.geoObjects.get(0).properties.getAll().name})
     })
   }
 
@@ -33,8 +32,12 @@ class RouteMap extends Component {
 
     const points = this.props.points.map((point) => {
 
-      const BalloonTemplate = '<h5 style = "margin: 3px; font-weight: 400; font-size: 15px;">' + point.text + '</h5>' +
-        '<p style = "margin: 3px">' + ( this.state.address || 'Загрузка...') + '</p>'
+      if(!point.address){
+        this.loadAddress(point.coordinates, point.id)
+      }
+
+      const BalloonTemplate = '<h5 style = "margin: 3px; font-weight: 400; font-size: 15px;">' + point.name + '</h5>' +
+        '<p style = "margin: 3px">' + ( point.address || 'Загрузка...') + '</p>'
 
       return <Placemark 
         key = {point.id} 
@@ -42,8 +45,7 @@ class RouteMap extends Component {
         modules = {['geoObject.addon.balloon']}
         geometry = { point.coordinates } 
         onGeometryChange = { (event) => { this.handleMovePoints(event, point.id) } }
-        onBalloonOpen = { () => this.getAddress(point.coordinates) }
-        onBalloonClose = { () => this.setState({address: '' }) }
+        onDragEnd = { () => { this.loadAddress(point.coordinates, point.id) } }
         properties = { { balloonContent: BalloonTemplate } }
         />
     })
